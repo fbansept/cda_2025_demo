@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Produit {
+public class Etat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,15 +15,7 @@ public class Produit {
 
     @Column(nullable = false)
     protected String nom;
-
-    @Column(length = 10, nullable = false, unique = true)
-    protected String code;
-
-    @Column(columnDefinition = "TEXT")
-    protected String description;
-
-    protected float prix;
-
+    
 
 }
 

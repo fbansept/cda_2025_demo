@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<ul id="ma-liste">
+
+</ul>
+
+
+<form onsubmit="return onNouveauProduit();">
+    <input id="champs-nom">
+    <input id="champs-code">
+    <textarea id="champs-description"></textarea>
+    <input id="champs-prix">
+    <input type="submit" value="Envoyer">
+</form>
+
+</body>
+
+<script>
+    function onNouveauProduit() {
+        const produit = {
+            nom: document.getElementById("champs-nom").value,
+            code: document.getElementById("champs-code").value,
+            description: document.getElementById("champs-description").value,
+            prix: document.getElementById("champs-prix").value,
+        }
+
+        const jsonProduit = JSON.stringify(produit);
+
+        fetch("http://localhost:8080/produit", {
+            method: "POST",
+            body: jsonProduit,
+            headers: {"Content-type": "application/json"}
+        })
+            .then(resultat => console.log("fini"))
+
+        return false;
+    }
+
+    console.log("DEBUT")
+
+    fetch("http://localhost:8080/produits")
+        .then(resultat => resultat.json())
+        .then(listeProduit => {
+            const maListe = document.getElementById("ma-liste")
+
+            for (let produit of listeProduit) {
+                const elementListe = document.createElement("li");
+                elementListe.innerHTML = produit.nom + " " + produit.prix
+                maListe.append(elementListe);
+            }
+        })
+
+    console.log("FIN")
+</script>
+
+</html>
