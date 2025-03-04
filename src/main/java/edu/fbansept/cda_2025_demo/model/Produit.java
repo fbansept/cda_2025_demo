@@ -13,11 +13,16 @@ public class Produit {
 
     @Id
     protected Integer id;
+
+    @Column(nullable = false)
     protected String nom;
 
     @Column(length = 10, nullable = false, unique = true)
     protected String code;
+
+    @Column(columnDefinition = "TEXT")
     protected String description;
+
     protected float prix;
 
 }
