@@ -1,8 +1,14 @@
 package edu.fbansept.cda_2025_demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,16 +20,30 @@ public class Produit {
     protected Integer id;
 
     @Column(nullable = false)
+    @NotBlank
     protected String nom;
 
     @Column(length = 10, nullable = false, unique = true)
+    @Length(max = 10, min = 3)
+    @NotBlank
     protected String code;
 
     @Column(columnDefinition = "TEXT")
     protected String description;
 
+    @DecimalMin(value = "0.1")
     protected float prix;
 
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    protected Etat etat;
 
+    @ManyToMany
+    @JoinTable(
+            name = "etiquette_produit",
+            joinColumns = @JoinColumn(name = "produit_id"),
+            inverseJoinColumns = @JoinColumn(name = "etiquette_id")
+    )
+    protected List<Etiquette> etiquettes = new ArrayList<>();
 }
 

@@ -2,6 +2,7 @@ package edu.fbansept.cda_2025_demo.controller;
 
 import edu.fbansept.cda_2025_demo.dao.ProduitDao;
 import edu.fbansept.cda_2025_demo.model.Produit;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class ProduitController {
     }
 
     @PostMapping("/produit")
-    public ResponseEntity<Produit> save(@RequestBody Produit produit) {
+    public ResponseEntity<Produit> save(@RequestBody @Valid Produit produit) {
 
         produitDao.save(produit);
 
@@ -70,7 +71,7 @@ public class ProduitController {
     @PutMapping("/produit/{id}")
     public ResponseEntity<Produit> update(
             @PathVariable int id,
-            @RequestBody Produit produit) {
+            @RequestBody @Valid Produit produit) {
 
         Optional<Produit> optionalProduit = produitDao.findById(id);
 

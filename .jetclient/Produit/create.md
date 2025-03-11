@@ -9,9 +9,20 @@ id = 'd37d2265-bc18-46fc-bb0f-83c5c8a78321'
 type = 'JSON'
 raw = '''
 {
-  "nom" : "fanta",
+  "nom" : "eeee",
   "description" : "Une boutille de 1L de fanta",
-  "prix" : 1.2,
-  "code" : "ftn"
+  "prix" : 1,
+  "code" : "rrr",
+  "etat" : {
+    "id" : 1
+  },
+  "etiquettes" : [
+    {
+      "id" : 1
+    },
+    {
+      "id" : 4
+    }
+  ]
 }'''
 ```
