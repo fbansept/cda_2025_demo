@@ -1,7 +1,9 @@
 package edu.fbansept.cda_2025_demo.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import edu.fbansept.cda_2025_demo.dao.CommandeDao;
 import edu.fbansept.cda_2025_demo.model.Commande;
+import edu.fbansept.cda_2025_demo.view.AffichageCommande;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,7 @@ public class CommandeController {
 
 
     @GetMapping("/commande/{id}")
+    @JsonView(AffichageCommande.class)
     public ResponseEntity<Commande> get(@PathVariable int id) {
 
         Optional<Commande> optionalCommande = commandeDao.findById(id);

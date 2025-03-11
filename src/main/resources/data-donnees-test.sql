@@ -57,3 +57,9 @@ VALUES (1, 1),  -- Asus Zenbook A14 - Promo
        (19, 5), -- Astro A50 X - Dernière chance
        (19, 2), -- Astro A50 X - Soldes aussi
        (20, 3); -- Redragon M686 Vampire - Déstockage
+
+INSERT INTO commande (date)
+VALUES (NOW());
+
+INSERT INTO ligne_commande (commande_id, quantite, prix_vente, produit_id)
+VALUES (1, 2, 1500, 4);

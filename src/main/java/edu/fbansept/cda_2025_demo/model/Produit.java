@@ -1,5 +1,7 @@
 package edu.fbansept.cda_2025_demo.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import edu.fbansept.cda_2025_demo.view.AffichageCommande;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -21,11 +23,13 @@ public class Produit {
 
     @Column(nullable = false)
     @NotBlank
+    @JsonView(AffichageCommande.class)
     protected String nom;
 
     @Column(length = 10, nullable = false, unique = true)
     @Length(max = 10, min = 3)
     @NotBlank
+    @JsonView(AffichageCommande.class)
     protected String code;
 
     @Column(columnDefinition = "TEXT")
