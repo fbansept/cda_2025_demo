@@ -43,12 +43,14 @@ public class CommandeController {
     }
 
     @GetMapping("/commandes")
+    @JsonView(AffichageCommande.class)
     public List<Commande> getAll() {
 
         return commandeDao.findAll();
     }
 
     @PostMapping("/commande")
+    @JsonView(AffichageCommande.class)
     public ResponseEntity<Commande> save(@RequestBody @Valid Commande commande) {
 
         commandeDao.save(commande);

@@ -48,8 +48,8 @@ public class ProduitController {
     @PostMapping("/produit")
     public ResponseEntity<Produit> save(@RequestBody @Valid Produit produit) {
 
+        produit.setId(null);
         produitDao.save(produit);
-
         return new ResponseEntity<>(produit, HttpStatus.CREATED);
     }
 
@@ -85,5 +85,4 @@ public class ProduitController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }

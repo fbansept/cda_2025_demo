@@ -7,7 +7,6 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +25,7 @@ public class Produit {
     @JsonView(AffichageCommande.class)
     protected String nom;
 
-    @Column(length = 10, nullable = false, unique = true)
-    @Length(max = 10, min = 3)
-    @NotBlank
-    @JsonView(AffichageCommande.class)
+    @Column(updatable = false)
     protected String code;
 
     @Column(columnDefinition = "TEXT")
