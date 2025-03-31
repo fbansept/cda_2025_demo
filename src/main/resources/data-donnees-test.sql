@@ -5,12 +5,12 @@ VALUES (1, 'neuf'),
        (4, 'reconditionné'),
        (5, 'très bon état');
 
-INSERT INTO etiquette (id, nom)
-VALUES (1, 'Promo'),
-       (2, 'Soldes'),
-       (3, 'Déstockage'),
-       (4, 'Fin de série'),
-       (5, 'Dernière chance');
+INSERT INTO etiquette (id, nom, couleur)
+VALUES (1, 'Promo', '#77FF77'),
+       (2, 'Soldes', 'red'),
+       (3, 'Déstockage', 'grey'),
+       (4, 'Fin de série', 'yellow'),
+       (5, 'Dernière chance', 'darkred');
 
 
 INSERT INTO produit (id, nom, code, description, prix, etat_id)
