@@ -1,3 +1,7 @@
+INSERT INTO utilisateur(email, password, admin)
+VALUES ("a@a.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW", 1),
+       ("b@b.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW", 0);
+
 INSERT INTO etat (id, nom)
 VALUES (1, 'neuf'),
        (2, 'occasion'),

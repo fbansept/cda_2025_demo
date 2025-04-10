@@ -3,6 +3,8 @@ package edu.fbansept.cda_2025_demo.controller;
 import edu.fbansept.cda_2025_demo.dao.ProduitDao;
 import edu.fbansept.cda_2025_demo.model.Etat;
 import edu.fbansept.cda_2025_demo.model.Produit;
+import edu.fbansept.cda_2025_demo.security.IsAdministrateur;
+import edu.fbansept.cda_2025_demo.security.IsUtilisateur;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,7 @@ public class ProduitController {
 
 
     @GetMapping("/produit/{id}")
+    @IsAdministrateur
     public ResponseEntity<Produit> get(@PathVariable int id) {
 
         Optional<Produit> optionalProduit = produitDao.findById(id);
@@ -41,6 +44,7 @@ public class ProduitController {
     }
 
     @GetMapping("/produits")
+    @IsUtilisateur
     public List<Produit> getAll() {
 
         return produitDao.findAll();

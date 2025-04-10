@@ -11,23 +11,20 @@ import lombok.Setter;
 @Entity
 public class Utilisateur {
 
-    public interface OnUpdate {
-    }
-
-    public interface OnCreate {
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
-    @Column(nullable = false)
     @NotBlank
-    @Email(groups = {OnUpdate.class, OnCreate.class})
+    @Email
+    @Column(unique = true, nullable = false)
     protected String email;
 
-    @Column(updatable = false)
-    @NotBlank(groups = {OnCreate.class})
+    @NotBlank
+    @Column(nullable = false)
     protected String password;
+
+    protected boolean admin;
+
 }
 
