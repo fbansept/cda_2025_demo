@@ -38,7 +38,7 @@ public class AuthController {
     @PostMapping("/inscription")
     public ResponseEntity<Utilisateur> inscription(@RequestBody @Valid Utilisateur utilisateur) {
 
-        utilisateur.setAdmin(false);
+        //utilisateur.setRole(Role.UTILISATEUR);
         utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
         utilisateurDao.save(utilisateur);
 

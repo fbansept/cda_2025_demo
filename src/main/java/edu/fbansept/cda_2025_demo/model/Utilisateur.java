@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Utilisateur {
 
     @Id
@@ -24,7 +25,9 @@ public class Utilisateur {
     @Column(nullable = false)
     protected String password;
 
-    protected boolean admin;
+//    @Enumerated(EnumType.STRING)
+//    @Column(columnDefinition = "ENUM('UTILISATEUR', 'REDACTEUR', 'ADMINISTRATEUR')")
+//    protected Role role;
 
 }
 

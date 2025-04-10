@@ -1,6 +1,12 @@
-INSERT INTO utilisateur(email, password, admin)
-VALUES ("a@a.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW", 1),
-       ("b@b.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW", 0);
+INSERT INTO utilisateur(email, password)
+VALUES ("a@a.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW"),
+       ("b@b.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW");
+
+INSERT INTO vendeur(id, salaire)
+VALUES (1, 2000);
+
+INSERT INTO client(id, numero)
+VALUES (2, "EZ1FD53EZF13EZ51");
 
 INSERT INTO etat (id, nom)
 VALUES (1, 'neuf'),

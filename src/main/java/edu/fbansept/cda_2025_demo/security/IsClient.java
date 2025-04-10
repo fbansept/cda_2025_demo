@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasRole('ROLE_ADMINISTRATEUR')")
-public @interface IsAdministrateur {
+@PreAuthorize("hasRole('ROLE_CLIENT')")
+public @interface IsClient {
 
 
 }
