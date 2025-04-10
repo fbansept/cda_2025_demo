@@ -1,8 +1,6 @@
 package edu.fbansept.cda_2025_demo.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +10,8 @@ import lombok.Setter;
 public class Vendeur extends Utilisateur {
 
     int salaire;
+
+    boolean chef = false;
 
 }
 
