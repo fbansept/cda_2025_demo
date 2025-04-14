@@ -30,7 +30,7 @@ public class ProduitController {
 
 
     @GetMapping("/produit/{id}")
-    @IsClient
+    @IsVendeur
     public ResponseEntity<Produit> get(@PathVariable int id) {
 
         Optional<Produit> optionalProduit = produitDao.findById(id);

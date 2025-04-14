@@ -45,5 +45,8 @@ public class Produit {
             inverseJoinColumns = @JoinColumn(name = "etiquette_id")
     )
     protected List<Etiquette> etiquettes = new ArrayList<>();
+
+    @ManyToOne
+    Vendeur createur;
 }
 
