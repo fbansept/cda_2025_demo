@@ -3,12 +3,15 @@ package edu.fbansept.cda_2025_demo.controller;
 import edu.fbansept.cda_2025_demo.dao.ProduitDao;
 import edu.fbansept.cda_2025_demo.model.Etat;
 import edu.fbansept.cda_2025_demo.model.Produit;
+import edu.fbansept.cda_2025_demo.model.Vendeur;
+import edu.fbansept.cda_2025_demo.security.AppUserDetails;
 import edu.fbansept.cda_2025_demo.security.IsClient;
 import edu.fbansept.cda_2025_demo.security.IsVendeur;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +33,7 @@ public class ProduitController {
 
 
     @GetMapping("/produit/{id}")
-    @IsVendeur
+    @IsClient
     public ResponseEntity<Produit> get(@PathVariable int id) {
 
         Optional<Produit> optionalProduit = produitDao.findById(id);
@@ -44,16 +47,26 @@ public class ProduitController {
     }
 
     @GetMapping("/produits")
-    @IsVendeur
+    @IsClient
     public List<Produit> getAll() {
 
         return produitDao.findAll();
     }
 
     @PostMapping("/produit")
-    public ResponseEntity<Produit> save(@RequestBody @Valid Produit produit) {
+    @IsVendeur
+    public ResponseEntity<Produit> save(
+            @RequestBody @Valid Produit produit,
+            @AuthenticationPrincipal AppUserDetails userDetails) {
 
-        //si le produit recu n'a pas d'etat alors on indiquide qu'il neuf par defaut
+        //dans le cas d'un héritage
+        produit.setCreateur((Vendeur) userDetails.getUtilisateur());
+
+        //dans le cas d'un enum
+        //produit.setCreateur(userDetails.getUtilisateur());
+
+
+        //si le produit recu n'a pas d'etat alors on indique qu'il neuf par defaut
         if (produit.getEtat() == null) {
 
             Etat etatNeuf = new Etat();
@@ -67,13 +80,29 @@ public class ProduitController {
     }
 
     @DeleteMapping("/produit/{id}")
-    @IsClient
-    public ResponseEntity<Produit> delete(@PathVariable int id) {
+    @IsVendeur
+    public ResponseEntity<Produit> delete(
+            @PathVariable int id,
+            @AuthenticationPrincipal AppUserDetails userDetails
+    ) {
 
         Optional<Produit> optionalProduit = produitDao.findById(id);
 
         if (optionalProduit.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        String role = userDetails.getAuthorities().stream()
+                .map(r -> r.getAuthority())
+                .findFirst()
+                .get();
+
+        //String role = ((SimpleGrantedAuthority)userDetails.getAuthorities().toArray()[0]).getAuthority();
+
+        //si l'id du createur du produit est different de l'id de la prsonne connecté
+        if (!role.equals("ROLE_CHEF_RAYON") ||
+                optionalProduit.get().getCreateur().getId() != userDetails.getUtilisateur().getId()) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         produitDao.deleteById(id);
@@ -83,6 +112,7 @@ public class ProduitController {
     }
 
     @PutMapping("/produit/{id}")
+    @IsVendeur
     public ResponseEntity<Produit> update(
             @PathVariable int id,
             @RequestBody @Valid Produit produit) {

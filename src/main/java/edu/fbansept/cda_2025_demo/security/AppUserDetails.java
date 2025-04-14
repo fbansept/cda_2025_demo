@@ -3,6 +3,7 @@ package edu.fbansept.cda_2025_demo.security;
 import edu.fbansept.cda_2025_demo.model.Client;
 import edu.fbansept.cda_2025_demo.model.Utilisateur;
 import edu.fbansept.cda_2025_demo.model.Vendeur;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
 public class AppUserDetails implements UserDetails {
 
     protected Utilisateur utilisateur;
