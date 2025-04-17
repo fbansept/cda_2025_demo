@@ -24,8 +24,7 @@ public class Produit {
     @NotBlank
     @JsonView(AffichageCommande.class)
     protected String nom;
-
-    @Column(updatable = false)
+    
     protected String code;
 
     @Column(columnDefinition = "TEXT")
