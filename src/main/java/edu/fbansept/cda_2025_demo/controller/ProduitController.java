@@ -7,6 +7,7 @@ import edu.fbansept.cda_2025_demo.model.Vendeur;
 import edu.fbansept.cda_2025_demo.security.AppUserDetails;
 import edu.fbansept.cda_2025_demo.security.IsClient;
 import edu.fbansept.cda_2025_demo.security.IsVendeur;
+import edu.fbansept.cda_2025_demo.security.SecuriteUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,16 +22,14 @@ import java.util.Optional;
 @RestController
 public class ProduitController {
 
-//    @Autowired
-//    protected ProduitDao produitDao;
-
     protected ProduitDao produitDao;
+    protected SecuriteUtils securiteUtils;
 
     @Autowired
-    public ProduitController(ProduitDao produitDao) {
+    public ProduitController(ProduitDao produitDao, SecuriteUtils securiteUtils) {
         this.produitDao = produitDao;
+        this.securiteUtils = securiteUtils;
     }
-
 
     @GetMapping("/produit/{id}")
     @IsClient
@@ -65,7 +64,6 @@ public class ProduitController {
         //dans le cas d'un enum
         //produit.setCreateur(userDetails.getUtilisateur());
 
-
         //si le produit recu n'a pas d'etat alors on indique qu'il neuf par defaut
         if (produit.getEtat() == null) {
 
@@ -92,14 +90,10 @@ public class ProduitController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        String role = userDetails.getAuthorities().stream()
-                .map(r -> r.getAuthority())
-                .findFirst()
-                .get();
+        String role = securiteUtils.getRole(userDetails);
 
-        //String role = ((SimpleGrantedAuthority)userDetails.getAuthorities().toArray()[0]).getAuthority();
-
-        //si l'id du createur du produit est different de l'id de la prsonne connecté
+        //si l'id du createur du produit est different de l'id de la personne connecté
+        // et que la personne n'est pas chef de rayon, alors on envoie un erreur 403 forbidden
         if (!role.equals("ROLE_CHEF_RAYON") ||
                 optionalProduit.get().getCreateur().getId() != userDetails.getUtilisateur().getId()) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
