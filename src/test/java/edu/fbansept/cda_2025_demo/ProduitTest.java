@@ -43,7 +43,7 @@ class ProduitTest {
         produitTest.setPrix(10);
         Set<ConstraintViolation<Object>> violations = validator.validate(produitTest);
 
-        boolean notBlankViolationExist = constraintExist(
+        boolean notBlankViolationExist = TestUtils.constraintExist(
                 violations, "nom", "NotBlank");
 
         assertTrue(notBlankViolationExist);
@@ -56,18 +56,11 @@ class ProduitTest {
         produitTest.setPrix(-10);
 
         assertTrue(
-                constraintExist(
+                TestUtils.constraintExist(
                         validator.validate(produitTest),
                         "prix",
                         "DecimalMin"));
-        
-    }
 
-    private boolean constraintExist(Set<ConstraintViolation<Object>> violations, String fieldName, String constraintName) {
-        return violations.stream()
-                .filter(v -> v.getPropertyPath().toString().equals(fieldName))
-                .map(v -> v.getConstraintDescriptor().getAnnotation().annotationType().getName())
-                .anyMatch(s -> s.equals("jakarta.validation.constraints." + constraintName));
     }
 
 
