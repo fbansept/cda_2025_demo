@@ -6,18 +6,20 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-public class ProduitTest {
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class ProduitTest {
 
     private Validator validator;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         ValidatorFactory factory =
                 Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
@@ -32,7 +34,7 @@ public class ProduitTest {
 
         Set<ConstraintViolation<Produit>> violations = validator.validate(produitTest);
 
-        Assertions.assertTrue(violations.isEmpty());
+        assertFalse(violations.isEmpty());
     }
 
     @Test
@@ -44,7 +46,7 @@ public class ProduitTest {
         boolean notBlankViolationExist = constraintExist(
                 violations, "nom", "NotBlank");
 
-        Assertions.assertTrue(notBlankViolationExist);
+        assertTrue(notBlankViolationExist);
     }
 
     @Test
@@ -53,11 +55,12 @@ public class ProduitTest {
         produitTest.setNom("test");
         produitTest.setPrix(-10);
 
-        Assertions.assertTrue(
+        assertTrue(
                 constraintExist(
                         validator.validate(produitTest),
                         "prix",
                         "DecimalMin"));
+        
     }
 
     private boolean constraintExist(Set<ConstraintViolation<Object>> violations, String fieldName, String constraintName) {

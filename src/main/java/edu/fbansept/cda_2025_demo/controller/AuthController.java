@@ -3,7 +3,7 @@ package edu.fbansept.cda_2025_demo.controller;
 import edu.fbansept.cda_2025_demo.dao.UtilisateurDao;
 import edu.fbansept.cda_2025_demo.model.Utilisateur;
 import edu.fbansept.cda_2025_demo.security.AppUserDetails;
-import edu.fbansept.cda_2025_demo.security.SecuriteUtils;
+import edu.fbansept.cda_2025_demo.security.ISecuriteUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,10 +24,11 @@ public class AuthController {
     protected UtilisateurDao utilisateurDao;
     protected PasswordEncoder passwordEncoder;
     protected AuthenticationProvider authenticationProvider;
-    protected SecuriteUtils securiteUtils;
+    protected ISecuriteUtils securiteUtils;
 
     @Autowired
-    public AuthController(UtilisateurDao utilisateurDao, PasswordEncoder passwordEncoder, AuthenticationProvider authenticationProvider, SecuriteUtils securiteUtils) {
+    public AuthController(UtilisateurDao utilisateurDao, PasswordEncoder passwordEncoder,
+                          AuthenticationProvider authenticationProvider, ISecuriteUtils securiteUtils) {
         this.utilisateurDao = utilisateurDao;
         this.passwordEncoder = passwordEncoder;
         this.authenticationProvider = authenticationProvider;

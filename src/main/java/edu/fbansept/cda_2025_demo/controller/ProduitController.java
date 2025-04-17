@@ -5,9 +5,9 @@ import edu.fbansept.cda_2025_demo.model.Etat;
 import edu.fbansept.cda_2025_demo.model.Produit;
 import edu.fbansept.cda_2025_demo.model.Vendeur;
 import edu.fbansept.cda_2025_demo.security.AppUserDetails;
+import edu.fbansept.cda_2025_demo.security.ISecuriteUtils;
 import edu.fbansept.cda_2025_demo.security.IsClient;
 import edu.fbansept.cda_2025_demo.security.IsVendeur;
-import edu.fbansept.cda_2025_demo.security.SecuriteUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,10 +23,10 @@ import java.util.Optional;
 public class ProduitController {
 
     protected ProduitDao produitDao;
-    protected SecuriteUtils securiteUtils;
+    protected ISecuriteUtils securiteUtils;
 
     @Autowired
-    public ProduitController(ProduitDao produitDao, SecuriteUtils securiteUtils) {
+    public ProduitController(ProduitDao produitDao, ISecuriteUtils securiteUtils) {
         this.produitDao = produitDao;
         this.securiteUtils = securiteUtils;
     }
@@ -94,7 +94,7 @@ public class ProduitController {
 
         //si l'id du createur du produit est different de l'id de la personne connecté
         // et que la personne n'est pas chef de rayon, alors on envoie un erreur 403 forbidden
-        if (!role.equals("ROLE_CHEF_RAYON") ||
+        if (!role.equals("ROLE_CHEF_RAYON") &&
                 optionalProduit.get().getCreateur().getId() != userDetails.getUtilisateur().getId()) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
