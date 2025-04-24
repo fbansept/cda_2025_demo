@@ -1,11 +1,13 @@
 INSERT INTO utilisateur(email, password)
 VALUES ("a@a.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW"),
        ("b@b.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW"),
-       ("c@c.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW");
+       ("c@c.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW"),
+       ("d@d.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW");
 
 INSERT INTO vendeur(id, salaire, chef)
 VALUES (1, 2000, 0),
-       (3, 3000, 1);
+       (3, 3000, 1),
+       (4, 2500, 0);
 
 INSERT INTO client(id, numero)
 VALUES (2, "EZ1FD53EZF13EZ51");

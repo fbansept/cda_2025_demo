@@ -26,7 +26,7 @@ public class Produit {
     @JsonView(AffichageCommande.class)
     protected String nom;
 
-    @Length
+    @Length(min = 3, max = 10)
     protected String code;
 
     @Column(columnDefinition = "TEXT")

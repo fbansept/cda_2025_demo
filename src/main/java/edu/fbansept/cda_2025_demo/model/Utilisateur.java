@@ -1,5 +1,7 @@
 package edu.fbansept.cda_2025_demo.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import edu.fbansept.cda_2025_demo.view.AffichageUtilisateur;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -14,6 +16,7 @@ public class Utilisateur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(AffichageUtilisateur.class)
     protected Integer id;
 
     @NotBlank
