@@ -1,5 +1,6 @@
 package edu.fbansept.cda_2025_demo.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import edu.fbansept.cda_2025_demo.dao.ProduitDao;
 import edu.fbansept.cda_2025_demo.model.Etat;
 import edu.fbansept.cda_2025_demo.model.Produit;
@@ -8,6 +9,8 @@ import edu.fbansept.cda_2025_demo.security.AppUserDetails;
 import edu.fbansept.cda_2025_demo.security.ISecuriteUtils;
 import edu.fbansept.cda_2025_demo.security.IsClient;
 import edu.fbansept.cda_2025_demo.security.IsVendeur;
+import edu.fbansept.cda_2025_demo.view.AffichageProduitPourClient;
+import edu.fbansept.cda_2025_demo.view.AffichageProduitPourVendeur;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,9 +48,18 @@ public class ProduitController {
 
     }
 
-    @GetMapping("/produits")
+    @GetMapping("/admin/produits")
+    @IsVendeur
+    @JsonView(AffichageProduitPourVendeur.class)
+    public List<Produit> getAllAsVendeur() {
+
+        return produitDao.findAll();
+    }
+
+    @GetMapping("/client/produits")
     @IsClient
-    public List<Produit> getAll() {
+    @JsonView(AffichageProduitPourClient.class)
+    public List<Produit> getAllAsClient() {
 
         return produitDao.findAll();
     }
@@ -58,6 +70,7 @@ public class ProduitController {
             @RequestBody @Valid Produit produit,
             @AuthenticationPrincipal AppUserDetails userDetails) {
 
+        userDetails = null;
         //dans le cas d'un héritage
         produit.setCreateur((Vendeur) userDetails.getUtilisateur());
 

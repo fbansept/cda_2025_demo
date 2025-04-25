@@ -15,7 +15,7 @@ raw = '''
   "nom" : "eeee",
   "description" : "Une boutille de 1L de fanta",
   "prix" : 1,
-  "code" : "rrr",
+  "code" : "777",
   "etat" : {
     "id" : 1
   },
