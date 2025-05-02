@@ -56,7 +56,7 @@ public class ProduitController {
         return produitDao.findAll();
     }
 
-    @GetMapping("/client/produits")
+    @GetMapping("/produits")
     @IsClient
     @JsonView(AffichageProduitPourClient.class)
     public List<Produit> getAllAsClient() {
@@ -122,7 +122,7 @@ public class ProduitController {
     @IsVendeur
     public ResponseEntity<Produit> update(
             @PathVariable int id,
-            @RequestBody @Valid Produit produit) {
+            @RequestBody @Valid Produit produitAsauvegarder) {
 
         Optional<Produit> optionalProduit = produitDao.findById(id);
 
@@ -130,9 +130,13 @@ public class ProduitController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        produit.setId(id);
+        //etant donnée que le formaulaire d'edition de produit ne permet pas de modifier le vendeur du produit
+        //on récupère l'ancien créateur et on le réaffecte au produit à sauvegarder
+        produitAsauvegarder.setCreateur(optionalProduit.get().getCreateur());
 
-        produitDao.save(produit);
+        produitAsauvegarder.setId(id);
+
+        produitDao.save(produitAsauvegarder);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
