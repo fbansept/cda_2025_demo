@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -27,6 +29,9 @@ public class Utilisateur {
     @NotBlank
     @Column(nullable = false)
     protected String password;
+
+    @OneToMany(mappedBy = "destinataire")
+    protected List<Notification> notifications;
 
 //    @Enumerated(EnumType.STRING)
 //    @Column(columnDefinition = "ENUM('UTILISATEUR', 'REDACTEUR', 'ADMINISTRATEUR')")

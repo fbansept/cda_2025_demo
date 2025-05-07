@@ -77,3 +77,14 @@ VALUES (NOW());
 
 INSERT INTO ligne_commande (commande_id, quantite, prix_vente, produit_id)
 VALUES (1, 2, 1500, 4);
+
+INSERT INTO type_promotion (nom, pourcentage)
+VALUES ('solde', TRUE);
+
+
+INSERT INTO promotion (produit_id, type_promotion_id, valeur)
+VALUES (2, 1, 20);
+
+INSERT INTO notification (message, auteur_id, destinataire_id)
+VALUES ("coucou 1", 1, 2),
+       ("coucou 2", 2, 1);
