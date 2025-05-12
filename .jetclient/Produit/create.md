@@ -9,23 +9,5 @@ id = 'd37d2265-bc18-46fc-bb0f-83c5c8a78321'
 token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhQGEuY29tIn0.WLK31zXu66JK56jOUK91gZg4HZv3InjphZVqCf80XlU'
 
 [body]
-type = 'JSON'
-raw = '''
-{
-  "nom" : "eeee",
-  "description" : "Une boutille de 1L de fanta",
-  "prix" : 1,
-  "code" : "777",
-  "etat" : {
-    "id" : 1
-  },
-  "etiquettes" : [
-    {
-      "id" : 1
-    },
-    {
-      "id" : 4
-    }
-  ]
-}'''
+type = 'FORM_DATA'
 ```

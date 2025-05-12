@@ -20,7 +20,7 @@ class ProduitControllerTest {
     @BeforeEach
     void setUp() {
         produitController = new ProduitController(
-                new MockProduitDao(), new MockSecuriteUtils("ROLE_VENDEUR")
+                new MockProduitDao(), new MockSecuriteUtils("ROLE_VENDEUR"), null
         );
     }
 
@@ -70,7 +70,7 @@ class ProduitControllerTest {
     void deleteExistingProductByNotSellerOwnerButFloorWalker_shouldSend204notContent() {
 
         produitController = new ProduitController(
-                new MockProduitDao(), new MockSecuriteUtils("ROLE_CHEF_RAYON")
+                new MockProduitDao(), new MockSecuriteUtils("ROLE_CHEF_RAYON"), null
         );
 
         Vendeur fauxVendeur = new Vendeur();

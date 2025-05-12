@@ -9,6 +9,7 @@ import edu.fbansept.cda_2025_demo.security.AppUserDetails;
 import edu.fbansept.cda_2025_demo.security.ISecuriteUtils;
 import edu.fbansept.cda_2025_demo.security.IsClient;
 import edu.fbansept.cda_2025_demo.security.IsVendeur;
+import edu.fbansept.cda_2025_demo.service.FichierService;
 import edu.fbansept.cda_2025_demo.view.AffichageProduitPourClient;
 import edu.fbansept.cda_2025_demo.view.AffichageProduitPourVendeur;
 import jakarta.validation.Valid;
@@ -17,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,11 +30,13 @@ public class ProduitController {
 
     protected ProduitDao produitDao;
     protected ISecuriteUtils securiteUtils;
+    protected FichierService fichierService;
 
     @Autowired
-    public ProduitController(ProduitDao produitDao, ISecuriteUtils securiteUtils) {
+    public ProduitController(ProduitDao produitDao, ISecuriteUtils securiteUtils, FichierService fichierService) {
         this.produitDao = produitDao;
         this.securiteUtils = securiteUtils;
+        this.fichierService = fichierService;
     }
 
     @GetMapping("/produit/{id}")
@@ -67,10 +72,10 @@ public class ProduitController {
     @PostMapping("/produit")
     @IsVendeur
     public ResponseEntity<Produit> save(
-            @RequestBody @Valid Produit produit,
+            @RequestPart("produit") @Valid Produit produit,
+            @RequestPart(value = "photo", required = false) MultipartFile photo,
             @AuthenticationPrincipal AppUserDetails userDetails) {
 
-        userDetails = null;
         //dans le cas d'un héritage
         produit.setCreateur((Vendeur) userDetails.getUtilisateur());
 
@@ -87,6 +92,17 @@ public class ProduitController {
 
         produit.setId(null);
         produitDao.save(produit);
+
+        if (photo != null) {
+            try {
+                fichierService.uploadToLocalFileSystem(photo, "toto.jpg");
+            } catch (IOException e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        produit.setCreateur(null);
+
         return new ResponseEntity<>(produit, HttpStatus.CREATED);
     }
 
