@@ -60,5 +60,8 @@ public class Produit {
     @JoinColumn(nullable = false)
     @JsonView({AffichageProduitPourVendeur.class})
     Vendeur createur;
+
+    @JsonView({AffichageProduitPourClient.class})
+    String nomImage;
 }
 

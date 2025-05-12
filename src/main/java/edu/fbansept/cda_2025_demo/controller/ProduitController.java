@@ -1,6 +1,7 @@
 package edu.fbansept.cda_2025_demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import edu.fbansept.cda_2025_demo.annotation.ValidFile;
 import edu.fbansept.cda_2025_demo.dao.ProduitDao;
 import edu.fbansept.cda_2025_demo.model.Etat;
 import edu.fbansept.cda_2025_demo.model.Produit;
@@ -14,15 +15,23 @@ import edu.fbansept.cda_2025_demo.view.AffichageProduitPourClient;
 import edu.fbansept.cda_2025_demo.view.AffichageProduitPourVendeur;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @CrossOrigin
 @RestController
@@ -73,7 +82,7 @@ public class ProduitController {
     @IsVendeur
     public ResponseEntity<Produit> save(
             @RequestPart("produit") @Valid Produit produit,
-            @RequestPart(value = "photo", required = false) MultipartFile photo,
+            @RequestPart(value = "photo", required = false) @ValidFile(acceptedTypes = {"image/jpeg", "image/gif"}) MultipartFile photo,
             @AuthenticationPrincipal AppUserDetails userDetails) {
 
         //dans le cas d'un héritage
@@ -91,15 +100,21 @@ public class ProduitController {
         }
 
         produit.setId(null);
-        produitDao.save(produit);
 
         if (photo != null) {
             try {
-                fichierService.uploadToLocalFileSystem(photo, "toto.jpg");
+                String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss"));
+                String imageName = date + "_" + produit.getNom() + "_" + UUID.randomUUID() + "_" + photo.getOriginalFilename();
+                fichierService.uploadToLocalFileSystem(photo, imageName, false);
+
+                produit.setNomImage(imageName);
+
             } catch (IOException e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
+
+        produitDao.save(produit);
 
         produit.setCreateur(null);
 
@@ -155,5 +170,36 @@ public class ProduitController {
         produitDao.save(produitAsauvegarder);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+    @GetMapping("/produit/image/{idProduit}")
+    @IsClient
+    public ResponseEntity<byte[]> getImageProduit(@PathVariable int idProduit) {
+
+        Optional<Produit> optional = produitDao.findById(idProduit);
+
+        if (optional.isPresent()) {
+
+            String nomImage = optional.get().getNomImage();
+
+            try {
+                byte[] image = fichierService.getImageByName(nomImage);
+
+                HttpHeaders enTete = new HttpHeaders();
+                String mimeType = Files.probeContentType(new File(nomImage).toPath());
+                enTete.setContentType(MediaType.valueOf(mimeType));
+
+                return new ResponseEntity<>(image, enTete, HttpStatus.OK);
+
+            } catch (FileNotFoundException e) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            } catch (IOException e) {
+                System.out.println("Le test du mimetype a echoué");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
