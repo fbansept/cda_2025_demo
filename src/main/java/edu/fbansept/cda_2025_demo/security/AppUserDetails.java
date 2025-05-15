@@ -44,4 +44,9 @@ public class AppUserDetails implements UserDetails {
     public String getUsername() {
         return utilisateur.getEmail();
     }
+
+    @Override
+    public boolean isEnabled() {
+        return utilisateur.getJetonVerificationEmail() == null;
+    }
 }

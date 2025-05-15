@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.util.List;
 
+
 @Getter
 @Setter
 @Entity
@@ -32,6 +33,8 @@ public class Utilisateur {
 
     @OneToMany(mappedBy = "destinataire")
     protected List<Notification> notifications;
+
+    protected String jetonVerificationEmail;
 
 //    @Enumerated(EnumType.STRING)
 //    @Column(columnDefinition = "ENUM('UTILISATEUR', 'REDACTEUR', 'ADMINISTRATEUR')")

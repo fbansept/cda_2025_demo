@@ -9,7 +9,7 @@ id = '1eb42bf0-6144-4c3a-9242-d8cbdedd1245'
 type = 'JSON'
 raw = '''
 {
-  "email" : "c@.com",
+  "email" : "c@c.com",
   "password" : "root"
 }'''
 ```
