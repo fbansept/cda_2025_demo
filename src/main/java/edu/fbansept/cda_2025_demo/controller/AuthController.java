@@ -92,9 +92,9 @@ public class AuthController {
     @PostMapping("/validate-email")
     public ResponseEntity<Utilisateur> validateEmail(@RequestBody ValidationEmailDto validationEmailDto) {
 
-        Optional<Utilisateur> utilisateur = utilisateurDao.findByEmail(validationEmailDto.getEmail());
+        Optional<Utilisateur> utilisateur = utilisateurDao.findByJetonVerificationEmail(validationEmailDto.getToken());
 
-        if (utilisateur.get().getJetonVerificationEmail().equals(validationEmailDto.getToken())) {
+        if (utilisateur.isPresent()) {
             utilisateur.get().setJetonVerificationEmail(null);
             utilisateurDao.save(utilisateur.get());
             return new ResponseEntity<>(utilisateur.get(), HttpStatus.OK);

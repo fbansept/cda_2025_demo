@@ -8,7 +8,7 @@ import lombok.Setter;
 public class ValidationEmailDto {
 
     protected String token;
-    protected String email;
+    protected boolean consentementUtilisationDonnees;
     //protected String password; //< -- si l'utilisateur doit choisir son mot de passe a ce moment là
 
 }
