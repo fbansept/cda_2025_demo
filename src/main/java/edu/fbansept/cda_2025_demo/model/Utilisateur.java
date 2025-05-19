@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "nom_role", discriminatorType = DiscriminatorType.STRING)
 public class Utilisateur {
 
     @Id
@@ -35,6 +36,9 @@ public class Utilisateur {
     protected List<Notification> notifications;
 
     protected String jetonVerificationEmail;
+
+    @Column(name = "nom_role", insertable = false, updatable = false)
+    private String nomRole;
 
 //    @Enumerated(EnumType.STRING)
 //    @Column(columnDefinition = "ENUM('UTILISATEUR', 'REDACTEUR', 'ADMINISTRATEUR')")

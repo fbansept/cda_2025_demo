@@ -1,8 +1,8 @@
-INSERT INTO utilisateur(email, password)
-VALUES ("a@a.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW"),
-       ("b@b.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW"),
-       ("c@c.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW"),
-       ("d@d.com", "$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW");
+INSERT INTO utilisateur(email, password, nom_role)
+VALUES ('a@a.com', '$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW', 'VENDEUR'),
+       ('b@b.com', '$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW', 'CLIENT'),
+       ('c@c.com', '$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW', 'VENDEUR'),
+       ('d@d.com', '$2a$10$uNJijirLSWel8ndVZyo19e3tHweXymwBLoxTUQ1gsqOFmyQtsHKvW', 'VENDEUR');
 
 INSERT INTO vendeur(id, salaire, chef)
 VALUES (1, 2000, 0),
@@ -10,7 +10,7 @@ VALUES (1, 2000, 0),
        (4, 2500, 0);
 
 INSERT INTO client(id, numero)
-VALUES (2, "EZ1FD53EZF13EZ51");
+VALUES (2, 'EZ1FD53EZF13EZ51');
 
 INSERT INTO etat (id, nom)
 VALUES (1, 'neuf'),
@@ -86,5 +86,5 @@ INSERT INTO promotion (produit_id, type_promotion_id, valeur)
 VALUES (2, 1, 20);
 
 INSERT INTO notification (message, auteur_id, destinataire_id)
-VALUES ("coucou 1", 1, 2),
-       ("coucou 2", 2, 1);
+VALUES ('coucou 1', 1, 2),
+       ('coucou 2', 2, 1);

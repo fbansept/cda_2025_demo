@@ -1,7 +1,9 @@
 package edu.fbansept.cda_2025_demo.controller;
 
+import edu.fbansept.cda_2025_demo.dao.ClientDao;
 import edu.fbansept.cda_2025_demo.dao.UtilisateurDao;
 import edu.fbansept.cda_2025_demo.dto.ValidationEmailDto;
+import edu.fbansept.cda_2025_demo.model.Client;
 import edu.fbansept.cda_2025_demo.model.Utilisateur;
 import edu.fbansept.cda_2025_demo.security.AppUserDetails;
 import edu.fbansept.cda_2025_demo.security.ISecuriteUtils;
@@ -29,15 +31,17 @@ import java.util.UUID;
 public class AuthController {
 
     protected UtilisateurDao utilisateurDao;
+    protected ClientDao clientDao;
     protected PasswordEncoder passwordEncoder;
     protected AuthenticationProvider authenticationProvider;
     protected ISecuriteUtils securiteUtils;
     protected EmailService emailService;
 
     @Autowired
-    public AuthController(UtilisateurDao utilisateurDao, PasswordEncoder passwordEncoder,
+    public AuthController(UtilisateurDao utilisateurDao, ClientDao clientDao, PasswordEncoder passwordEncoder,
                           AuthenticationProvider authenticationProvider, ISecuriteUtils securiteUtils, EmailService emailService) {
         this.utilisateurDao = utilisateurDao;
+        this.clientDao = clientDao;
         this.passwordEncoder = passwordEncoder;
         this.authenticationProvider = authenticationProvider;
         this.securiteUtils = securiteUtils;
@@ -46,20 +50,25 @@ public class AuthController {
 
 
     @PostMapping("/inscription")
-    public ResponseEntity<Utilisateur> inscription(@RequestBody @Valid Utilisateur utilisateur) throws IOException {
+    public ResponseEntity<Client> inscription(@RequestBody @Valid Utilisateur utilisateur) throws IOException {
 
         //utilisateur.setRole(Role.UTILISATEUR);
-        utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
+
+        Client client = new Client();
+        client.setNumero(UUID.randomUUID().toString());
+        client.setEmail(utilisateur.getEmail());
+        client.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
+
         String tokenValidationEmail = UUID.randomUUID().toString();
 
-        utilisateur.setJetonVerificationEmail(tokenValidationEmail);
-        utilisateurDao.save(utilisateur);
+        client.setJetonVerificationEmail(tokenValidationEmail);
+        clientDao.save(client);
+        emailService.sendEmailValidationToken(client.getEmail(), tokenValidationEmail);
 
-        emailService.sendEmailValidationToken(utilisateur.getEmail(), tokenValidationEmail);
-
-        //on masque le mot de passe
-        utilisateur.setPassword(null);
-        return new ResponseEntity<>(utilisateur, HttpStatus.CREATED);
+        //on masque le mot de passe et le jeton de vérification
+        client.setPassword(null);
+        client.setJetonVerificationEmail(null);
+        return new ResponseEntity<>(client, HttpStatus.CREATED);
     }
 
     @PostMapping("/connexion")
