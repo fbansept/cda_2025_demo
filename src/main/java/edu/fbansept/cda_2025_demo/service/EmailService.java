@@ -16,7 +16,7 @@ public class EmailService {
         message.setTo(to);
         message.setSubject("Validation de votre email");
         message.setText("Pour valider votre email, veuillez cliquer sur le lien suivant : "
-                + "http://localhost:4200/validate-email?token=" + token);
+                + "http://localhost:4200/validate-email/" + token);
         mailSender.send(message);
     }
 
