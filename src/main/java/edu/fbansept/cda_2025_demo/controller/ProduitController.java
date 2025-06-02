@@ -50,6 +50,7 @@ public class ProduitController {
 
     @GetMapping("/produit/{id}")
     @IsClient
+    @JsonView(AffichageProduitPourClient.class)
     public ResponseEntity<Produit> get(@PathVariable int id) {
 
         Optional<Produit> optionalProduit = produitDao.findById(id);
@@ -80,6 +81,7 @@ public class ProduitController {
 
     @PostMapping("/produit")
     @IsVendeur
+    @JsonView(AffichageProduitPourVendeur.class)
     public ResponseEntity<Produit> save(
             @RequestPart("produit") @Valid Produit produit,
             @RequestPart(value = "photo", required = false) @ValidFile(acceptedTypes = {"image/jpeg", "image/gif"}) MultipartFile photo,
@@ -123,6 +125,7 @@ public class ProduitController {
 
     @DeleteMapping("/produit/{id}")
     @IsVendeur
+    @JsonView(AffichageProduitPourVendeur.class)
     public ResponseEntity<Produit> delete(
             @PathVariable int id,
             @AuthenticationPrincipal AppUserDetails userDetails
@@ -151,6 +154,7 @@ public class ProduitController {
 
     @PutMapping("/produit/{id}")
     @IsVendeur
+    @JsonView(AffichageProduitPourClient.class)
     public ResponseEntity<Produit> update(
             @PathVariable int id,
             @RequestBody @Valid Produit produitAsauvegarder) {
