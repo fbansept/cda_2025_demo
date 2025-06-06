@@ -30,6 +30,7 @@ public class Utilisateur {
 
     @NotBlank
     @Column(nullable = false)
+    @JsonView()
     protected String password;
 
     @OneToMany(mappedBy = "destinataire")
