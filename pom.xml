@@ -10,9 +10,15 @@
     </parent>
     <groupId>edu.fbansept</groupId>
     <artifactId>cda_2025_demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>cda_2025_demo</name>
     <description>cda_2025_demo</description>
+
+    <properties>
+        <java.version>17</java.version>
+        <final.jar.name>app</final.jar.name>
+    </properties>
+
     <url/>
     <licenses>
         <license/>
@@ -26,9 +32,6 @@
         <tag/>
         <url/>
     </scm>
-    <properties>
-        <java.version>17</java.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -96,7 +99,31 @@
     </dependencies>
 
     <build>
+        <finalName>${final.jar.name}</finalName>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.3</version>
+                <configuration>
+                    <!-- Inclure les tests unitaires -->
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                    <!-- Exclure les tests d'intégration -->
+                    <excludes>
+                        <exclude>**/*ApplicationTests.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

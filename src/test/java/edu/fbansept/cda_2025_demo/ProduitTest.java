@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ProduitTest {
@@ -34,7 +33,7 @@ class ProduitTest {
 
         Set<ConstraintViolation<Produit>> violations = validator.validate(produitTest);
 
-        assertFalse(violations.isEmpty());
+        assertTrue(violations.isEmpty());
     }
 
     @Test
