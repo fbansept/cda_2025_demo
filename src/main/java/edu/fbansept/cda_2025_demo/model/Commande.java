@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class Commande {
     @Column(nullable = false)
     @NotNull
     @JsonView(AffichageCommande.class)
-    protected LocalDateTime date;
+    protected Instant date;
 
     @OneToMany(mappedBy = "commande")
     @JsonView(AffichageCommande.class)
