@@ -1,4 +1,25 @@
 services:
+
+  front:
+    image: fbansept/cda_2025_front:0.0.0
+    ports:
+      - "80:80"
+
+  back:
+    image: fbansept/cda_2025_back:0.0.3
+    ports:
+      - "8080:8080"
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+    volumes:
+      - data:/var/lib/mysql
+
   static:
     image: nginx:latest
     ports:
@@ -10,3 +31,6 @@ services:
       - .local.env
     environment:
       - PUBLIC_UPLOAD_FOLDER=${PUBLIC_UPLOAD_FOLDER}
+
+volumes:
+  data:
