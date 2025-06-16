@@ -9,6 +9,8 @@ services:
     image: fbansept/cda_2025_back:0.0.3
     ports:
       - "8080:8080"
+    depends_on:
+      - db
 
   db:
     image: mysql:5.7
