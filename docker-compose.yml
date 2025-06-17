@@ -1,14 +1,27 @@
 services:
 
-  front:
-    image: fbansept/cda_2025_front:0.0.0
+  proxy:
+    image: nginx:latest
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-static.conf:/etc/nginx/nginx.conf
+      - ../certs:/etc/nginx/certs
+    depends_on:
+      - front
+      - back
+      - static
+
+  front:
+    image: fbansept/cda_2025_front:0.0.0
+    expose:
+      - "80"
 
   back:
     image: fbansept/cda_2025_back:0.0.3
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     depends_on:
       - db
 
@@ -17,18 +30,18 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
-    ports:
-      - '3306:3306'
+    expose:
+      - "3306"
     volumes:
       - data:/var/lib/mysql
 
   static:
     image: nginx:latest
-    ports:
-      - "81:80"
+    expose:
+      - "80"
     volumes:
       - ${PUBLIC_UPLOAD_FOLDER}:/usr/share/nginx/html/images
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx-static.conf:/etc/nginx/conf.d/default.conf
     env_file:
       - .local.env
     environment:
