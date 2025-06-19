@@ -33,10 +33,10 @@ jobs:
         run: sed -i 's/${DB_HOST}/db/' src/main/resources/application.properties
 
       - name: Update PUBLIC_UPLOAD_FOLDER in application.properties, to /public-upload
-        run: sed -i 's/${PUBLIC_UPLOAD_FOLDER}/public-upload/' src/main/resources/application.properties
+        run: sed -i 's|public.upload.folder=.*|public.upload.folder=/public-upload|' src/main/resources/application.properties
 
       - name: Update PRIVATE_UPLOAD_FOLDER in application.properties, to /private-upload
-        run: sed -i 's/${PRIVATE_UPLOAD_FOLDER}/private-upload/' src/main/resources/application.properties
+        run: sed -i 's|private.upload.folder=.*|private.upload.folder=/private-upload|' src/main/resources/application.properties
 
       - name: Build with Maven
         run: mvn clean package
