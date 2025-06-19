@@ -1,4 +1,5 @@
 .local.env
+*.crt
 /uploads
 
 HELP.md

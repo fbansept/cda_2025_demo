@@ -1,0 +1,14 @@
+FROM alpine/openssl
+
+RUN apk add --no-cache bash
+
+WORKDIR /certs
+
+# Le script de génération de certificat
+COPY ./certs/generate_cert.sh /certs/generate_cert.sh
+
+# Donner les permissions d'exécution au script
+RUN chmod +x /certs/generate_cert.sh
+
+# Exécuter le script lors du démarrage du conteneur
+ENTRYPOINT ["/certs/generate_cert.sh"]

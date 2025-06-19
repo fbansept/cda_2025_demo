@@ -1,7 +1,7 @@
 ```toml
 name = 'get image'
 method = 'GET'
-url = 'http://localhost:8080/produit/image/21'
+url = 'http://localhost:8080/produit/image/1'
 sortWeight = 7000000
 id = 'af56c0e6-ac0f-4ab1-84af-b29294f8804d'
 

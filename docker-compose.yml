@@ -1,5 +1,4 @@
 services:
-
   proxy:
     image: nginx:latest
     ports:
@@ -7,7 +6,7 @@ services:
       - "443:443"
     volumes:
       - ./nginx-proxy.conf:/etc/nginx/nginx.conf
-      - ../certs:/etc/nginx/certs
+      - ./certs:/etc/nginx/certs
     depends_on:
       - front
       - back
@@ -24,6 +23,12 @@ services:
       - "8080"
     depends_on:
       - db
+    volumes:
+      - ${PUBLIC_UPLOAD_FOLDER}:/public-upload
+      - ${PRIVATE_UPLOAD_FOLDER}:/private-upload
+    environment:
+      - PUBLIC_UPLOAD_FOLDER=${PUBLIC_UPLOAD_FOLDER}
+      - PRIVATE_UPLOAD_VOLUME=${PRIVATE_UPLOAD_FOLDER}
 
   db:
     image: mysql:5.7
@@ -34,6 +39,8 @@ services:
       - "3306"
     volumes:
       - data:/var/lib/mysql
+    ports:
+      - "3306:3306"
 
   static:
     image: nginx:latest
@@ -47,3 +54,5 @@ services:
 
 volumes:
   data:
+  public-upload:
+  private-upload:
