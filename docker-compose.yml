@@ -12,14 +12,14 @@ services:
       - back
       - static
     networks:
-      - proxy
+      - proxy-network
 
   front:
     image: fbansept/cda_2025_front:0.0.0
     expose:
       - "80"
     networks:
-      - proxy
+      - proxy-network
 
   back:
     image: fbansept/cda_2025_back:0.0.3
@@ -34,8 +34,8 @@ services:
       - PUBLIC_UPLOAD_FOLDER=${PUBLIC_UPLOAD_FOLDER}
       - PRIVATE_UPLOAD_VOLUME=${PRIVATE_UPLOAD_FOLDER}
     networks:
-      - proxy
-      - backend
+      - proxy-network
+      - backend-network
 
   db:
     image: mysql:5.7
@@ -47,9 +47,9 @@ services:
     volumes:
       - data:/var/lib/mysql
 #    ports:
-#      - "3306:3306" décommentez pour accéder a distance à la base de données
+#      - "3306:3306" décommentez pour accéder a distance à la bdd
     networks:
-      - backend
+      - backend-network
 
   static:
     image: nginx:latest
@@ -61,12 +61,12 @@ services:
     environment:
       - PUBLIC_UPLOAD_FOLDER=${PUBLIC_UPLOAD_FOLDER}
     networks:
-      - proxy
+      - proxy-network
 
 volumes:
   data:
 
 networks:
-  proxy:
-  backend:
+  proxy-network:
+  backend-network:
 
